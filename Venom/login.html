@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login & Registration</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .welcome-header {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .welcome-title {
+      color: #7b3df7;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+
+    .welcome-title span {
+      color: #fefefe;
+      background-color: transparent;
+      padding: 0 10px;
+      border-radius: 5px;
+    }
+
+    .venom-logo {
+      max-width: 100px;
+      margin: 0 auto;
+      filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+      display: block;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+      position: relative;
+      overflow: hidden;
+      width: 768px;
+      max-width: 100%;
+      min-height: 550px;
+    }
+
+    .form-container {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .login-container {
+      left: 0;
+      width: 50%;
+      z-index: 2;
+    }
+
+    .register-container {
+      left: 0;
+      width: 50%;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .container.right-panel-active .login-container {
+      transform: translateX(100%);
+    }
+
+    .container.right-panel-active .register-container {
+      transform: translateX(100%);
+      opacity: 1;
+      z-index: 5;
+      animation: show 0.6s;
+    }
+
+    @keyframes show {
+      0%, 49.99% {
+        opacity: 0;
+        z-index: 1;
+      }
+      50%, 100% {
+        opacity: 1;
+        z-index: 5;
+      }
+    }
+
+    form {
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 50px;
+      height: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 20px;
+    }
+
+    input {
+      background-color: #eee;
+      border: none;
+      padding: 12px 15px;
+      margin: 8px 0;
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    button {
+      border-radius: 20px;
+      border: 1px solid #667eea;
+      background-color: #667eea;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 80ms ease-in;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    button:focus {
+      outline: none;
+    }
+
+    .toggle-container {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      transition: transform 0.6s ease-in-out;
+      z-index: 100;
+    }
+
+    .container.right-panel-active .toggle-container {
+      transform: translateX(-100%);
+    }
+
+    .toggle {
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: #ffffff;
+      position: relative;
+      left: -100%;
+      height: 100%;
+      width: 200%;
+      transform: translateX(0);
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .container.right-panel-active .toggle {
+      transform: translateX(50%);
+    }
+
+    .toggle-panel {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 30px;
+      text-align: center;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .toggle-left {
+      transform: translateX(-200%);
+    }
+
+    .container.right-panel-active .toggle-left {
+      transform: translateX(0);
+    }
+
+    .toggle-right {
+      right: 0;
+      transform: translateX(0);
+    }
+
+    .container.right-panel-active .toggle-right {
+      transform: translateX(200%);
+    }
+
+    .otp-container {
+      display: none;
+      width: 100%;
+    }
+
+    .otp-input {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+    }
+
+    .otp-input input {
+      width: 15%;
+      height: 45px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .send-otp {
+      background-color: #4CAF50;
+      border: none;
+      margin-top: 5px;
+    }
+
+    .verify-otp {
+      background-color: #2196F3;
+      border: none;
+    }
+
+    .error {
+      color: red;
+      font-size: 12px;
+      text-align: left;
+      width: 100%;
+      margin-top: -5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="container" id="container">
+    <div class="form-container login-container">
+      <form id="loginForm">
+        <h1>Login</h1>
+        <input type="text" id="loginUsername" placeholder="Username" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+        <p style="margin-top: 15px;">Don't have an account? <a href="#" id="showRegister">Register here</a></p>
+      </form>
+    </div>
+
+    <div class="form-container register-container">
+      <form id="registerForm">
+        <h1>Create Account</h1>
+        <input type="text" id="regUsername" placeholder="Username" required />
+        <div class="error" id="usernameError">Username must be at least 4 characters</div>
+
+        <input type="email" id="regEmail" placeholder="Email" required />
+        <div class="error" id="emailError">Please enter a valid email</div>
+
+        <input type="tel" id="regMobile" placeholder="Mobile Number" required />
+        <div class="error" id="mobileError">Please enter a valid mobile number</div>
+
+        <input type="password" id="regPassword" placeholder="Password" required />
+        <div class="error" id="passwordError">Password must be at least 6 characters</div>
+
+        <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required />
+        <div class="error" id="confirmPasswordError">Passwords don't match</div>
+
+        <button type="button" id="sendOtpBtn" class="send-otp">Send OTP</button>
+
+        <div class="otp-container" id="otpContainer">
+          <p>Enter OTP sent to your email</p>
+          <div class="otp-input">
+            <input type="text" maxlength="1" class="otp-digit" />
+            <input type="text" maxlength="1" class="otp-digit" />
+            <input type="text" maxlength="1" class="otp-digit" />
+            <input type="text" maxlength="1" class="otp-digit" />
+            <input type="text" maxlength="1" class="otp-digit" />
+            <input type="text" maxlength="1" class="otp-digit" />
+          </div>
+          <button type="button" id="verifyOtpBtn" class="verify-otp">Verify OTP</button>
+        </div>
+
+        <button type="submit" id="registerBtn" disabled>Register</button>
+        <p style="margin-top: 15px;">Already have an account? <a href="#" id="showLogin">Login here</a></p>
+      </form>
+    </div>
+
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>Welcome Back!</h1>
+          <p>Enter your personal details to login</p>
+          <button class="hidden" id="login">Login</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Hello, Friend!</h1>
+          <p>Register with your personal details to join us</p>
+          <button class="hidden" id="register">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('container');
+      const registerBtn = document.getElementById('register');
+      const loginBtn = document.getElementById('login');
+      const showRegister = document.getElementById('showRegister');
+      const showLogin = document.getElementById('showLogin');
+      const sendOtpBtn = document.getElementById('sendOtpBtn');
+      const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+      const otpContainer = document.getElementById('otpContainer');
+      const registerFormBtn = document.getElementById('registerBtn');
+
+      registerBtn.addEventListener('click', () => container.classList.add("right-panel-active"));
+      loginBtn.addEventListener('click', () => container.classList.remove("right-panel-active"));
+      showRegister.addEventListener('click', (e) => { e.preventDefault(); container.classList.add("right-panel-active"); });
+      showLogin.addEventListener('click', (e) => { e.preventDefault(); container.classList.remove("right-panel-active"); });
+
+      const regUsername = document.getElementById('regUsername');
+      const regEmail = document.getElementById('regEmail');
+      const regMobile = document.getElementById('regMobile');
+      const regPassword = document.getElementById('regPassword');
+      const regConfirmPassword = document.getElementById('regConfirmPassword');
+
+      const usernameError = document.getElementById('usernameError');
+      const emailError = document.getElementById('emailError');
+      const mobileError = document.getElementById('mobileError');
+      const passwordError = document.getElementById('passwordError');
+      const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+      function validateUsername() {
+        if (regUsername.value.length < 4) {
+          usernameError.style.display = 'block'; return false;
+        } else {
+          usernameError.style.display = 'none'; return true;
+        }
+      }
+
+      function validateEmail() {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!re.test(regEmail.value)) {
+          emailError.style.display = 'block'; return false;
+        } else {
+          emailError.style.display = 'none'; return true;
+        }
+      }
+
+      function validateMobile() {
+        const re = /^[0-9]{10,15}$/;
+        if (!re.test(regMobile.value)) {
+          mobileError.style.display = 'block'; return false;
+        } else {
+          mobileError.style.display = 'none'; return true;
+        }
+      }
+
+      function validatePassword() {
+        if (regPassword.value.length < 6) {
+          passwordError.style.display = 'block'; return false;
+        } else {
+          passwordError.style.display = 'none'; return true;
+        }
+      }
+
+      function validateConfirmPassword() {
+        if (regPassword.value !== regConfirmPassword.value) {
+          confirmPasswordError.style.display = 'block'; return false;
+        } else {
+          confirmPasswordError.style.display = 'none'; return true;
+        }
+      }
+
+      regUsername.addEventListener('input', validateUsername);
+      regEmail.addEventListener('input', validateEmail);
+      regMobile.addEventListener('input', validateMobile);
+      regPassword.addEventListener('input', validatePassword);
+      regConfirmPassword.addEventListener('input', validateConfirmPassword);
+
+      let generatedOtp = '';
+
+      sendOtpBtn.addEventListener('click', function () {
+        if (validateUsername() && validateEmail() && validateMobile() && validatePassword() && validateConfirmPassword()) {
+          generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+          alert(`OTP sent to ${regEmail.value}. Your OTP is: ${generatedOtp}`);
+          otpContainer.style.display = 'block';
+          sendOtpBtn.style.display = 'none';
+        } else {
+          alert('Please fill all fields correctly before sending OTP');
+        }
+      });
+
+      const otpDigits = document.querySelectorAll('.otp-digit');
+      otpDigits.forEach((digit, index) => {
+        digit.addEventListener('input', function () {
+          if (this.value.length === 1 && index < otpDigits.length - 1) otpDigits[index + 1].focus();
+        });
+        digit.addEventListener('keydown', function (e) {
+          if (e.key === 'Backspace' && this.value.length === 0 && index > 0) otpDigits[index - 1].focus();
+        });
+      });
+
+      verifyOtpBtn.addEventListener('click', function () {
+        let enteredOtp = '';
+        otpDigits.forEach(digit => { enteredOtp += digit.value; });
+        if (enteredOtp === generatedOtp) {
+          alert('OTP verified successfully!');
+          registerFormBtn.disabled = false;
+        } else {
+          alert('Invalid OTP. Please try again.');
+        }
+      });
+
+      document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        alert('Login successful!');
+      });
+
+      document.getElementById('registerForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!registerFormBtn.disabled) {
+          alert('Registration successful!');
+          this.reset();
+          otpContainer.style.display = 'none';
+          sendOtpBtn.style.display = 'block';
+          registerFormBtn.disabled = true;
+          container.classList.remove("right-panel-active");
+        } else {
+          alert('Please complete OTP verification first');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

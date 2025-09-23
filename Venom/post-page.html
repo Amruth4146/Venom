@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post page</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="Venom.css" />
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav container">
+        <!-- Logo -->
+      <a href="index.html" class="logo">Ve<span>nom</span></a>
+      <!-- Login -->
+      <a href="" class="login">Login</a>
+    </div>
+  </header>
+  <!-- Post Content -->
+   <section class="post-header">
+        <div class="header-content  post-container">
+            <!-- Back  To Home-->
+            <a href="index.html" class="back-home">Back To Home</a>
+            <!-- Title -->
+            <h1 class="header-title">How To Create  Best UX Design With Adobe xd</h1>
+             <!-- Post Image -->
+            <img src="img/post-1.jpg" alt="" class="header-img">
+        </div>
+   </section>
+
+  <!-- Posts -->
+  <section class="post-constent post-container">
+    <h2 class="sub-heading">Create Best UX Design</h2>
+    <p class="post-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae odio, excepturi, iste vel odit adipisci reprehenderit cum dolore atque maiores numquam in enim eius assumenda, ipsum pariatur voluptatum obcaecati. Natus ab, sapiente praesentium velit magni odit modi laborum culpa distinctio, saepe perferendis qui neque cumque!</p>
+
+  </section>
+ 
+  <!-- Footer -->
+   <div class="footer container">
+    <p>&#169; Carpoolvenom All Right Reserved</p>
+    <div class="social">
+      <a href="#"><i class='bx bxl-facebook'></i></a>
+      <a href="#"><i class='bx bxl-twitter'></i></a>
+      <a href="#"><i class='bx bxl-instagram'></i></a>
+      <a href="#"><i class='bx bxl-linkedin'></i></a>
+    </div>
+   </div>
+   
+
+
+
+
+
+
+    
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+  <!-- Inline JavaScript for Filtering -->
+  <script>
+    $(document).ready(function () {
+      $(".filter-item").click(function () {
+        const filter = $(this).attr("data-filter");
+
+        $(".filter-item").removeClass("active-filter");
+        $(this).addClass("active-filter");
+
+        if (filter === "all") {
+          $(".post-box").show(400);
+        } else {
+          $(".post-box").hide(400);
+          $(".post-box." + filter).show(400);
+        }
+      });
+    });
+  </script>
+<script src="main.js"></script>
+</body>
+</html>
