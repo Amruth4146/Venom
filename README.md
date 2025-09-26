@@ -56,10 +56,6 @@ Deploy the platform online
 
 Contributions are welcome! Feel free to fork this repo and submit a pull request.
 
-📜 License
 
-This project is licensed under the MIT License.
 
-👉 You just need to replace the placeholders (tech stack, commands, your GitHub username) with your actual project details.
 
-Do you want me to make a short version (just description + features) or a detailed version (with setup instructions, future scope, etc.) for your README?
